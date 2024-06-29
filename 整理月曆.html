@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8' />
+  <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.css' rel='stylesheet' />
+  <style>
+    #timeline {
+      position: relative;
+      margin: 20px 0;
+      padding: 10px;
+      background: #f9f9f9;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      overflow: auto;
+      white-space: nowrap;
+    }
+    .timeline-event {
+      display: inline-block;
+      padding: 10px;
+      margin: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background: #fff;
+      cursor: pointer;
+      white-space: normal;
+      text-align: center;
+    }
+    .timeline-event img {
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+    .fc-event-title-container {
+      white-space: normal;
+      max-height: 50px;
+      padding-right: 10px;
+    }
+    .fc-event-title a {
+      display: block;
+      margin-bottom: 5px;
+      word-wrap: break-word;
+    }
+  </style>
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+      var timelineEl = document.getElementById('timeline');
+      var searchInput = document.getElementById('search-input');
+      var searchButton = document.getElementById('search-button');
+
+      var events = [
+        {
+          title: '',
+          start: '2024-06-27',
+          extendedProps: {
+            imageLinkText: '一起吃咖喱',
+            imageLinkUrl: 'https://images.plurk.com/xmfRr7OgWGcr7aKUt3W1P.jpg',
+            
+          },
+          allDay: true
+        } ,   
+        {
+          title: '生日禮物',
+          start: '2024-04-09',
+          extendedProps: {
+            youtubeLinkText: '鋒澤幫自己綁上蝴蝶結當09的生日禮物',
+            youtubeLinkUrl: 'https://youtu.be/4yBgKRxvEQE?t=183'
+            
+          },
+          allDay: true
+        }, 
+        {
+          title: '誰要跟你當朋友!',
+          start: '2024-04-09',
+          extendedProps: {
+            youtubeLinkText: '誰要跟你當朋友',
+            youtubeLinkUrl: 'https://youtu.be/4yBgKRxvEQE?t=538'
+            
+          },
+          allDay: true
+        },   
+        {
+          title: '鋒澤送的生日禮物',
+          start: '2024-04-09',
+          extendedProps: {
+            youtubeLinkText: '希望你能走入我的心',
+            youtubeLinkUrl: 'https://www.instagram.com/p/CcIQknmFezo/?igshid=MzRlODBiNWFlZA%3D%3D'
+            
+          },
+          allDay: true
+        },   
+        {
+          title: '安全之吻',
+          start: '2022-12-24',
+          extendedProps: {
+            youtubeLinkText: '九澤安全之吻',
+            youtubeLinkUrl: 'https://youtu.be/lRyzc8V-Ydc?t=973'
+            
+          },
+          allDay: true
+        }, 
+        {
+          title: '因為愛所以舞',
+          start: '2022-11-26',
+          extendedProps: {
+            youtubeLinkText: '希望兩人可以一起演BL劇',
+            youtubeLinkUrl: 'https://www.instagram.com/reel/ClbQk92MTIY/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=='
+            
+          },
+          allDay: true
+        }, 
+        {
+          title: '鋒澤直播提到兩人是夫妻',
+          start: '2022-11-13',
+          extendedProps: {
+            youtubeLinkText: '鋒澤在直播提到兩人是夫妻',
+            youtubeLinkUrl: 'https://www.instagram.com/reel/Ck534A1uw_K/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=='
+            
+          },
+          allDay: true
+        },   
+        {
+          title: '九澤pocky',
+          start: '2019-07-22',
+          extendedProps: {
+            youtubeLinkText: '九澤在保生路2號吃pocky',
+            youtubeLinkUrl: 'https://youtu.be/nTc-HJsbvhc?t=783'
+            
+          },
+          allDay: true
+        },               
+        {
+          title: '',
+          start: '2024-06-27',
+          extendedProps: {
+            description: '這個人最近身體剛康復'
+          },
+          allDay: true
+        }
+
+      ];
+
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        events: events,
+        eventContent: function(arg) {
+          var titleContainer = document.createElement('div');
+          titleContainer.classList.add('fc-event-title-container');
+
+          if (arg.event.extendedProps.imageLinkText && arg.event.extendedProps.imageLinkUrl) {
+            var imageLink = document.createElement('a');
+            imageLink.href = arg.event.extendedProps.imageLinkUrl;
+            imageLink.target = '_blank';
+
+            var img = document.createElement('img');
+            img.src = arg.event.extendedProps.imageUrl;
+            imageLink.appendChild(img);
+
+            var imageText = document.createElement('span');
+            imageText.textContent = arg.event.extendedProps.imageLinkText;
+            imageLink.appendChild(imageText);
+
+            titleContainer.appendChild(imageLink);
+          }
+
+          if (arg.event.extendedProps.youtubeLinkText && arg.event.extendedProps.youtubeLinkUrl) {
+            var youtubeLink = document.createElement('a');
+            youtubeLink.href = arg.event.extendedProps.youtubeLinkUrl;
+            youtubeLink.textContent = arg.event.extendedProps.youtubeLinkText;
+            youtubeLink.target = '_blank';
+            titleContainer.appendChild(youtubeLink);
+          }
+
+          if (arg.event.extendedProps.description) {
+            var description = document.createElement('div');
+            description.textContent = arg.event.extendedProps.description;
+            titleContainer.appendChild(description);
+          }
+
+          return { domNodes: [titleContainer] };
+        }
+      });
+      calendar.render();
+
+      function renderTimeline() {
+        timelineEl.innerHTML = '';
+        events.forEach(function(event) {
+          var eventEl = document.createElement('div');
+          eventEl.classList.add('timeline-event');
+          var eventDate = new Date(event.start);
+          var options = { month: 'short', day: 'numeric' };
+          eventEl.textContent = eventDate.toLocaleDateString('en-US', options) + ': ' + (event.title || '无标题事件');
+
+          if (event.extendedProps.imageUrl) {
+            var img = document.createElement('img');
+            img.src = event.extendedProps.imageUrl;
+            eventEl.appendChild(img);
+          }
+
+          eventEl.addEventListener('click', function() {
+            calendar.gotoDate(event.start);
+          });
+
+          timelineEl.appendChild(eventEl);
+        });
+      }
+
+      renderTimeline();
+
+      searchButton.addEventListener('click', function() {
+        var keyword = searchInput.value.toLowerCase();
+        var foundEvent = events.find(function(event) {
+          return (event.title && event.title.toLowerCase().includes(keyword)) ||
+                 (event.extendedProps && Object.values(event.extendedProps).some(function(prop) {
+                   return typeof prop === 'string' && prop.toLowerCase().includes(keyword);
+                 }));
+        });
+
+        if (foundEvent) {
+          calendar.gotoDate(foundEvent.start);
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+  <input type="text" id="search-input" placeholder="搜索关键字">
+  <button id="search-button">搜索</button>
+  <div id='calendar'></div>
+  <div id='timeline'></div>
+</body>
+</html>
